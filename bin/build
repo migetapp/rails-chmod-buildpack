@@ -8,8 +8,8 @@ GREEN='\033[1;32m'
 NC='\033[0m'
 
 echo ""
-echo -e "${BOLD}${BLUE}Miget Rails Chmod buildpack${NC} ${BLUE}0.0.2${NC}"
-echo -e "\t${GRAY}https://github.com/migetapp/rails-chmod-buildpack${NC}"
+echo -e "${BOLD}${BLUE}Miget Rails Chmod buildpack${NC} ${BLUE}0.0.3${NC}"
+echo -e "  ${GRAY}https://github.com/migetapp/rails-chmod-buildpack${NC}"
 echo ""
 echo -e "Updating permissions for the Rails tmp directory..."
 mkdir -p ./tmp
