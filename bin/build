@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+echo "---> Rails chmod buildpack"
+
+# LIST CONTENTS
+echo "Updating permissions for the Rails tmp directory..."
+set -x
+mkdir -p ./tmp
+mkdir -p ./tmp/pids
+chmod -R 775 ./tmp
+set +x
+echo "---> Done"
