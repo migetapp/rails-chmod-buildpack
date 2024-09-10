@@ -31,3 +31,9 @@ jobs:
       - name: Build, package, and push buildpack to Docker Hub
         run: |
           pack buildpack package miget/rails-chmod-buildpack:${{ github.event.inputs.version }} --publish --format=image
+
+      - name: Tag image as 'latest' and push
+        run: |
+          docker pull miget/rails-chmod-buildpack:${{ github.event.inputs.version }}
+          docker tag miget/rails-chmod-buildpack:${{ github.event.inputs.version }} miget/rails-chmod-buildpack:latest
+          docker push miget/rails-chmod-buildpack:latest
