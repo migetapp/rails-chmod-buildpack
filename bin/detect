@@ -2,4 +2,4 @@
 set -eo pipefail
 
 # LIST CONTENTS
-echo "Rails chmod buildpack is activated!"
+echo "Miget Rails Chmod buildpack is activated!"

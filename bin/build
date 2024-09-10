@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-echo "---> Rails chmod buildpack"
+BOLD='\033[1m'
+BLUE='\033[38;5;25m'
+GRAY='\033[38;2;12;48;93m'
+GREEN='\033[1;32m'
+NC='\033[0m'
 
-# LIST CONTENTS
-echo "Updating permissions for the Rails tmp directory..."
-set -x
+echo ""
+echo -e "${BOLD}${BLUE}Miget Rails Chmod buildpack${NC} ${BLUE}0.0.2${NC}"
+echo -e "\t${GRAY}https://github.com/migetapp/rails-chmod-buildpack${NC}"
+echo ""
+echo -e "Updating permissions for the Rails tmp directory..."
 mkdir -p ./tmp
 mkdir -p ./tmp/pids
 chmod -R 775 ./tmp
-set +x
-echo "---> Done"
+echo -e "${GREEN}Done${NC}"
+echo ""
