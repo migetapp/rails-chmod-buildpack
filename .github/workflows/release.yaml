@@ -1,0 +1,54 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Release Version'
+        required: true
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create GitHub release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.release_version }}
+          release_name: Release ${{ github.event.inputs.release_version }}
+          body: |
+            **Release version:** ${{ github.event.inputs.release_version }}
+
+            You can pull this buildpack with the following Docker command:
+
+            ```bash
+            docker pull miget/rails-chmod-buildpack:${{ github.event.inputs.release_version }}
+            ```
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  trigger_build:
+    needs: create_release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger build workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const result = await github.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'build.yaml',
+              ref: context.ref,
+              inputs: {
+                version: "${{ github.event.inputs.release_version }}"
+              }
+            });
+            console.log(result);

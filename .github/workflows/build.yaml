@@ -1,0 +1,33 @@
+name: Build and Push Buildpack
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get latest Pack CLI version
+        id: get-pack-cli-version
+        run: |
+          latest_version=$(curl -s https://api.github.com/repos/buildpacks/pack/releases/latest | jq -r .tag_name)
+          echo "::set-output name=version::$latest_version"
+
+      - name: Install Pack CLI
+        run: |
+          curl -sSL "https://github.com/buildpacks/pack/releases/download/${{ steps.get-pack-cli-version.outputs.version }}/pack-${{ steps.get-pack-cli-version.outputs.version }}-linux.tgz" | sudo tar -C /usr/local/bin -xz pack
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_LOGIN }}" --password-stdin
+
+      - name: Build, package, and push buildpack to Docker Hub
+        run: |
+          pack buildpack package miget/rails-chmod-buildpack --publish --tag miget/rails-chmod-buildpack:${{ github.event.inputs.version }}
