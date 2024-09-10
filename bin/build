@@ -2,14 +2,15 @@
 set -eo pipefail
 
 BOLD='\033[1m'
-BLUE='\033[38;5;25m'
+BLUE='\033[34m'
 GRAY='\033[38;2;12;48;93m'
 GREEN='\033[1;32m'
+ITALIC='\033[3m'
 NC='\033[0m'
 
 echo ""
-echo -e "${BOLD}${BLUE}Miget Rails Chmod buildpack${NC} ${BLUE}0.0.3${NC}"
-echo -e "  ${GRAY}https://github.com/migetapp/rails-chmod-buildpack${NC}"
+echo -e "${BOLD}${BLUE}Miget Rails Chmod buildpack${NC} ${BLUE}0.0.4${NC}"
+echo -e "  ${ITALIC}${GRAY}https://github.com/migetapp/rails-chmod-buildpack${NC}"
 echo ""
 echo -e "Updating permissions for the Rails tmp directory..."
 mkdir -p ./tmp
